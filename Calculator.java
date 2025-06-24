@@ -1,46 +1,64 @@
-
 import java.util.Scanner;
 
 public class Calculator {
-
     public static void main(String[] args) {
+        System.out.println("Calculator Designed by SHYAM MOHAN P");
+        System.out.println("You can perform + - * / expression with two numbers");
+        System.out.println("Type 'c' to close.\n\n");
+            System.out.print("Enter expression (e.g., 5+3): ");
+
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Basic Calculator");
-        System.out.print("Enter first number: ");
-        double num1 = scanner.nextDouble();
+        while (true) {
+            String input = scanner.nextLine().replace(" ", "");
 
-        System.out.print("Enter operator (+, -, *, /): ");
-        char operator = scanner.next().charAt(0);
-
-        System.out.print("Enter second number: ");
-        double num2 = scanner.nextDouble();
-
-        double result;
-
-        switch (operator) {
-            case '+':
-                result = num1 + num2;
-                System.out.println("Result: " + result);
+            if (input.equalsIgnoreCase("c")) {
+                System.out.println("Calculator is closed.");
                 break;
-            case '-':
-                result = num1 - num2;
-                System.out.println("Result: " + result);
-                break;
-            case '*':
-                result = num1 * num2;
-                System.out.println("Result: " + result);
-                break;
-            case '/':
-                if (num2 == 0) {
-                    System.out.println("Error: Division by zero.");
-                } else {
-                    result = num1 / num2;
-                    System.out.println("Result: " + result);
+            }
+
+            char operator = 0;
+            int index = -1;
+
+            for (int i = 0; i < input.length(); i++) {
+                char c = input.charAt(i);
+                if (c == '+' || c == '-' || c == '*' || c == '/') {
+                    operator = c;
+                    index = i;
+                    break;
                 }
-                break;
-            default:
-                System.out.println("Invalid operator.");
+            }
+
+            if (index == -1) {
+                System.out.println("Error: invalid operator.");
+                continue;
+            }
+
+            try {
+                double num1 = Double.parseDouble(input.substring(0, index));
+                double num2 = Double.parseDouble(input.substring(index + 1));
+                double result = 0;
+
+                switch (operator) {
+                    case '+': result = num1 + num2; break;
+                    case '-': result = num1 - num2; break;
+                    case '*': result = num1 * num2; break;
+                    case '/':
+                        if (num2 == 0) {
+                            System.out.println("Error: Division by zero");
+                            continue;
+                        }
+                        result = num1 / num2;
+                        break;
+                    default:
+                        System.out.println("Error: invalid operator");
+                        continue;
+                }
+
+                System.out.println("= " + result + "\n");
+            } catch (NumberFormatException e) {
+                System.out.println("Error: Invalid numbers");
+            }
         }
 
         scanner.close();
